@@ -1,18 +1,20 @@
 <?php
 
+use App\Http\Controllers\Frontend\SiteController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [SiteController::class,'index'])->name('home');
+Route::get('/post', [SiteController::class,'SinglePost']);
+
+//User Login & Register Route
+Route::prefix('user')->name('user.')->group(function (){
+    Route::get('/login',[SiteController::class,'ShowLoginForm'])->name('login-form');
+    Route::post('/login',[SiteController::class,'login'])->name('login');
+
+    Route::get('/logout',[SiteController::class,'logout'])->name('logout');
+
+    Route::get('/register',[SiteController::class,'ShowRegisterForm'])->name('register-form');
+    Route::post('/register',[SiteController::class,'registration'])->name('registration');
+
 });
